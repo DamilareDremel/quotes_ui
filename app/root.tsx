@@ -1,15 +1,18 @@
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-
-import "./tailwind.css";
+import NavBar from "~/components/NavBar";
+import stylesheet from "~/tailwind.css";
+import Nav from "~/components/Nav";
 
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -31,15 +34,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-sans bg-white text-gray-900 dark:bg-gray-950">
         {children}
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Layout>
+      <div>
+        <NavBar />
+        <Nav />
+        <Outlet />
+        <footer className="text-center p-4 bg-gray-200 dark:bg-gray-800">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            &copy; {new Date().getFullYear()} Quotes App. A Project By Damilare Fagbenro. All rights reserved.
+          </p>
+        </footer>
+      </div>
+    </Layout>
+  );
 }
+
