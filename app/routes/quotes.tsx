@@ -8,7 +8,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const token = await getToken(request);
   if (!token) return redirect("/login");
 
-  const res = await fetch("https://quotes-auth.onrender.com/quotes", {
+  const res = await fetch(`${process.env.BACKEND_URL}/quotes`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 

@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({ request }) => {
     return redirect("/login");
   }
 
-  const res = await fetch("https://quotes-auth.onrender.com/quotes", {
+  const res = await fetch(`${process.env.BACKEND_URL}/quotes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

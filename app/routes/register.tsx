@@ -9,7 +9,7 @@ export const action: ActionFunction = async ({ request }) => {
   const password = formData.get("password");
   const username = formData.get("username");
 
-  const res = await fetch("https://quotes-auth.onrender.com/auth/register", {
+  const res = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password, username }),
