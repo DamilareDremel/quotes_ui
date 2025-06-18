@@ -1,13 +1,14 @@
-/** @type {import('@remix-run/dev').AppConfig} */
-const netlify = require("@remix-run/netlify");
+import path from "path";
 
-module.exports = {
-  serverBuildTarget: "netlify",
+export default {
+  future: {
+    v2_routeConvention: true,
+  },
+  ignoredRouteFiles: ["**/.*"],
   appDirectory: "app",
   assetsBuildDirectory: "public/build",
   publicPath: "/build/",
-  ignoredRouteFiles: ["**/.*"],
-  server: undefined, // use default server entry point
-  // adapter:
-  adapter: netlify(),
+  serverBuildPath: "build/index.js",
+  serverModuleFormat: "esm",
+  devServerBroadcastDelay: 0,
 };
