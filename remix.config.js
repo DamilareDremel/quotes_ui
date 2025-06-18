@@ -1,9 +1,7 @@
-import path from "path";
-
 export default {
   appDirectory: "app",
   assetsBuildDirectory: "public/build",
-  serverBuildPath: "netlify/functions/server.js",
+  serverBuildPath: "netlify/functions/server.js",  // ✅ Must be .js not .zip
   publicPath: "/build/",
   serverModuleFormat: "esm"
 };
