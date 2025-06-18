@@ -3,5 +3,5 @@ export default {
   assetsBuildDirectory: "public/build",
   publicPath: "/build/",
   serverBuildPath: "build/index.js",
-  serverModuleFormat: "cjs"
+  serverModuleFormat: "esm"
 };
