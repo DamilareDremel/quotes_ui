@@ -1,5 +1,5 @@
 import { json, redirect, LoaderFunctionArgs } from "@remix-run/node";
-import { storage } from "~/utils/session.server";
+import { storage, setFlash } from "~/utils/session.server";
 
 export const action = async ({ request }: LoaderFunctionArgs) => {
   const formData = await request.formData();
@@ -12,7 +12,7 @@ export const action = async ({ request }: LoaderFunctionArgs) => {
     return redirect("/login");
   }
 
-  const res = await fetch(`http://localhost:4000/quotes/${id}`, {
+  const res = await fetch(`https://quotes-auth.onrender.com/quotes/${id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -21,5 +21,9 @@ export const action = async ({ request }: LoaderFunctionArgs) => {
     return json({ error: "Not authorized or quote not found" }, { status: 403 });
   }
 
-  return redirect("/quotes");
+  // ✅ no need to fetch session again, just use the one you already have
+  setFlash(session, "Quote deleted successfully!");
+  return redirect("/quotes", {
+    headers: { "Set-Cookie": await storage.commitSession(session) },
+  });
 };

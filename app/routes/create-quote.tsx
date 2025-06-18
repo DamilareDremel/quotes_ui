@@ -1,7 +1,7 @@
-import { Form, useActionData, redirect } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
-import { storage } from "~/utils/session.server";
+import { storage, setFlash } from "~/utils/session.server";
 
 type ActionData = { error?: string };
 
@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({ request }) => {
     return redirect("/login");
   }
 
-  const res = await fetch("http://localhost:4000/quotes", {
+  const res = await fetch("https://quotes-auth.onrender.com/quotes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,20 +30,24 @@ export const action: ActionFunction = async ({ request }) => {
     },
     body: JSON.stringify({
       text: content,
-      author: author,
+      author,
       tags: [tag],
     }),
   });
 
   if (res.ok) {
-    return redirect("/quotes");
+    setFlash(session, "Quote added successfully!");
+    return redirect("/quotes", {
+      headers: {
+        "Set-Cookie": await storage.commitSession(session),
+      },
+    });
   }
 
   const data = await res.json().catch(() => null);
   const errorMsg = data?.message || "Failed to add quote";
   return json({ error: errorMsg }, { status: 400 });
 };
-
 
 export default function CreateQuote() {
   const actionData = useActionData<ActionData>();

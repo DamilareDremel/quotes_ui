@@ -1,11 +1,6 @@
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
+import { getToken } from "~/utils/session.server";
 import type { LinksFunction } from "@remix-run/node";
 import NavBar from "~/components/NavBar";
 import stylesheet from "~/tailwind.css";
@@ -13,17 +8,14 @@ import Nav from "~/components/Nav";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
+  // ... your other links
 ];
+
+// 👇 Root loader to fetch login status
+export const loader: LoaderFunction = async ({ request }) => {
+  const token = await getToken(request);
+  return json({ isLoggedIn: Boolean(token) });
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -45,11 +37,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { isLoggedIn } = useLoaderData<typeof loader>(); // 👈 get login status from loader
+
   return (
     <Layout>
       <div>
-        <NavBar />
-        <Nav />
+        <NavBar isLoggedIn={isLoggedIn} /> {/* 👈 pass to NavBar */}
+        <Nav isLoggedIn={isLoggedIn} />
         <Outlet />
         <footer className="text-center p-4 bg-gray-200 dark:bg-gray-800">
           <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -60,4 +54,3 @@ export default function App() {
     </Layout>
   );
 }
-

@@ -6,7 +6,7 @@ import type { Quote } from "~/types/quote";
 
 export const loader: LoaderFunction = async () => {
   try {
-    const res = await fetch("http://localhost:4000/quotes/random");
+    const res = await fetch("https://quotes-auth.onrender.com/quotes/random");
     if (!res.ok) {
       throw new Error("Failed to fetch random quote");
     }

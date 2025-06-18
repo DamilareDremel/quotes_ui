@@ -1,7 +1,7 @@
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, Form } from "@remix-run/react";
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
-import { getToken } from "~/utils/session.server";
+import { getToken, storage, setFlash } from "~/utils/session.server";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const token = await getToken(request);
@@ -10,7 +10,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return redirect("/login");
   }
 
-  const res = await fetch(`http://localhost:4000/quotes/${params.id}`, {
+
+  const res = await fetch(`https://quotes-auth.onrender.com/quotes/${params.id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -31,7 +32,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
   const token = await getToken(request);
 
-  const res = await fetch(`http://localhost:4000/quotes/${params.id}`, {
+  const res = await fetch(`https://quotes-auth.onrender.com/quotes/${params.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -43,9 +44,13 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     }),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to update quote");
-  }
+  if (!res.ok) throw new Error("Failed to update quote");
+
+const session = await storage.getSession(request.headers.get("Cookie"));
+setFlash(session, "Quote updated successfully!");
+return redirect("/quotes", {
+  headers: { "Set-Cookie": await storage.commitSession(session) },
+});
 
   return redirect("/quotes");
 };
