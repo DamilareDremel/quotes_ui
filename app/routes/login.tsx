@@ -51,20 +51,19 @@ export default function Login() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Login</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Login</h1>
 
       {loaderData.message && (
-  <div
-    className={`mb-4 p-3 rounded ${
-      loaderData.message.toLowerCase().includes("logged out")
-        ? "bg-red-100 text-red-700"
-        : "bg-green-100 text-green-700"
-    }`}
-  >
-    {loaderData.message}
-  </div>
-)}
-
+        <div
+          className={`mb-4 p-3 rounded ${
+            loaderData.message.toLowerCase().includes("logged out")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {loaderData.message}
+        </div>
+      )}
 
       {actionData?.error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
@@ -80,16 +79,26 @@ export default function Login() {
 
       <Form method="post" className="space-y-4">
         <div>
-          <label>Email</label>
-          <input name="email" type="email" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Email</label>
+          <input
+            name="email"
+            type="email"
+            required
+            className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200"
+          />
         </div>
         <div>
-          <label>Password</label>
-          <input name="password" type="password" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Password</label>
+          <input
+            name="password"
+            type="password"
+            required
+            className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200"
+          />
         </div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
         <div className="mt-4 space-y-2">
-          <p>
+          <p className="text-gray-800 dark:text-gray-200">
             Don't have an account?{" "}
             <a href="/register" className="text-blue-600">Register</a>
           </p>

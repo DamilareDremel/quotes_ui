@@ -60,25 +60,25 @@ export default function EditQuote() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Edit Quote</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Quote</h1>
       <Form method="post">
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Quote Text</label>
+          <label className="block mb-1 font-medium text-gray-800 dark:text-gray-200">Quote Text</label>
           <textarea
             name="text"
             defaultValue={quote.text}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 bg-white dark:bg-gray-800 dark:text-gray-200"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Tags (comma-separated)</label>
+          <label className="block mb-1 font-medium text-gray-800 dark:text-gray-200">Tags (comma-separated)</label>
           <input
             type="text"
             name="tags"
             defaultValue={quote.tags?.join(", ")}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 bg-white dark:bg-gray-800 dark:text-gray-200"
           />
         </div>
 

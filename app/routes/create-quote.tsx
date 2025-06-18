@@ -54,7 +54,7 @@ export default function CreateQuote() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Add New Quote</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Add New Quote</h1>
 
       {actionData?.error && (
         <p className="text-red-600 mb-4">{actionData.error}</p>
@@ -62,19 +62,20 @@ export default function CreateQuote() {
 
       <Form method="post" className="space-y-4">
         <div>
-          <label>Content</label>
-          <input name="content" type="text" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Content</label>
+          <input name="content" type="text" required className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200" />
         </div>
         <div>
-          <label>Author</label>
-          <input name="author" type="text" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Author</label>
+          <input name="author" type="text" required className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200" />
         </div>
         <div>
-          <label>Tag</label>
-          <input name="tag" type="text" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Tag</label>
+          <input name="tag" type="text" required className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200" />
         </div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
       </Form>
     </div>
   );
 }
+

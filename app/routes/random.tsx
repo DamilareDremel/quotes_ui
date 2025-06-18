@@ -29,10 +29,10 @@ export default function RandomQuote() {
 
   return (
     <div className="max-w-2xl mx-auto text-center p-8">
-      <h1 className="text-3xl font-bold mb-6">Random Quote</h1>
-      <p className="italic text-lg mb-4">"{quote.text}"</p>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Random Quote</h1>
+      <p className="italic text-lg mb-4 text-gray-800 dark:text-gray-200">"{quote.text}"</p>
       {quote.author && (
-        <p className="text-right">— {quote.author}</p>
+        <p className="text-right text-gray-800 dark:text-gray-200">— {quote.author}</p>
       )}
 
       {quote.tags && quote.tags.length > 0 && (
@@ -51,3 +51,4 @@ export default function RandomQuote() {
     </div>
   );
 }
+

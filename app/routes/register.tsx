@@ -38,30 +38,48 @@ export default function Register() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Register</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Register</h1>
+
       {actionData?.error && (
         <p className="text-red-600 mb-4">{actionData.error}</p>
       )}
+
       <Form method="post" className="space-y-4">
         <div>
-          <label>Email</label>
-          <input name="email" type="email" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Email</label>
+          <input
+            name="email"
+            type="email"
+            required
+            className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200"
+          />
         </div>
         <div>
-          <label>Username</label>
-          <input name="username" type="text" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Username</label>
+          <input
+            name="username"
+            type="text"
+            required
+            className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200"
+          />
         </div>
         <div>
-          <label>Password</label>
-          <input name="password" type="password" required className="w-full border p-2 rounded" />
+          <label className="block mb-1 text-gray-800 dark:text-gray-200">Password</label>
+          <input
+            name="password"
+            type="password"
+            required
+            className="w-full border p-2 rounded bg-white dark:bg-gray-800 dark:text-gray-200"
+          />
         </div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">Register</button>
       </Form>
 
-      <p className="mt-4 text-center">
+      <p className="mt-4 text-center text-gray-800 dark:text-gray-200">
         Already have an account?{" "}
         <a href="/login" className="text-blue-600 hover:underline">Login here</a>
       </p>
     </div>
   );
 }
+
