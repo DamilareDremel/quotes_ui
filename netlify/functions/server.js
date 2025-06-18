@@ -1,3 +1,11 @@
+import { createRequestHandler } from "@remix-run/netlify";
+
+export const handler = createRequestHandler({
+  getLoadContext(event, context) {
+    // You can pass any context here if needed
+  },
+});
+
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
