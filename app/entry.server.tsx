@@ -7,7 +7,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
 
-function handleRequest(
+export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -35,12 +35,7 @@ function handleBotRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
           responseHeaders.set("Content-Type", "text/html");
-
-          resolve(new Response(stream, {
-            headers: responseHeaders,
-            status: responseStatusCode,
-          }));
-
+          resolve(new Response(stream, { headers: responseHeaders, status: responseStatusCode }));
           pipe(body);
         },
         onShellError(error: unknown) {
@@ -72,12 +67,7 @@ function handleBrowserRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
           responseHeaders.set("Content-Type", "text/html");
-
-          resolve(new Response(stream, {
-            headers: responseHeaders,
-            status: responseStatusCode,
-          }));
-
+          resolve(new Response(stream, { headers: responseHeaders, status: responseStatusCode }));
           pipe(body);
         },
         onShellError(error: unknown) {
@@ -92,7 +82,3 @@ function handleBrowserRequest(
     setTimeout(abort, ABORT_DELAY);
   });
 }
-
-// ✅ Export the handler for Netlify (this is what Netlify will call)
-// ✅ Export for Netlify
-export const handler = handleRequest;
