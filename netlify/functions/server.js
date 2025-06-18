@@ -1,11 +1,3 @@
-import { createRequestHandler } from "@remix-run/netlify";
-
-export const handler = createRequestHandler({
-  getLoadContext(event, context) {
-    // You can pass any context here if needed
-  },
-});
-
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,7 +7,7 @@ var __export = (target, all) => {
 // app/entry.server.tsx
 var entry_server_exports = {};
 __export(entry_server_exports, {
-  default: () => handleRequest
+  handler: () => handler
 });
 import { PassThrough } from "node:stream";
 import { createReadableStreamFromReadable } from "@remix-run/node";
@@ -25,39 +17,20 @@ import { renderToPipeableStream } from "react-dom/server";
 import { jsx } from "react/jsx-runtime";
 var ABORT_DELAY = 5e3;
 function handleRequest(request, responseStatusCode, responseHeaders, remixContext, loadContext) {
-  return isbot(request.headers.get("user-agent") || "") ? handleBotRequest(
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixContext
-  ) : handleBrowserRequest(
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixContext
-  );
+  return isbot(request.headers.get("user-agent") || "") ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext) : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext);
 }
 function handleBotRequest(request, responseStatusCode, responseHeaders, remixContext) {
   return new Promise((resolve, reject) => {
     let shellRendered = !1, { pipe, abort } = renderToPipeableStream(
-      /* @__PURE__ */ jsx(
-        RemixServer,
-        {
-          context: remixContext,
-          url: request.url,
-          abortDelay: ABORT_DELAY
-        }
-      ),
+      /* @__PURE__ */ jsx(RemixServer, { context: remixContext, url: request.url, abortDelay: ABORT_DELAY }),
       {
         onAllReady() {
           shellRendered = !0;
           let body = new PassThrough(), stream = createReadableStreamFromReadable(body);
-          responseHeaders.set("Content-Type", "text/html"), resolve(
-            new Response(stream, {
-              headers: responseHeaders,
-              status: responseStatusCode
-            })
-          ), pipe(body);
+          responseHeaders.set("Content-Type", "text/html"), resolve(new Response(stream, {
+            headers: responseHeaders,
+            status: responseStatusCode
+          })), pipe(body);
         },
         onShellError(error) {
           reject(error);
@@ -73,24 +46,15 @@ function handleBotRequest(request, responseStatusCode, responseHeaders, remixCon
 function handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext) {
   return new Promise((resolve, reject) => {
     let shellRendered = !1, { pipe, abort } = renderToPipeableStream(
-      /* @__PURE__ */ jsx(
-        RemixServer,
-        {
-          context: remixContext,
-          url: request.url,
-          abortDelay: ABORT_DELAY
-        }
-      ),
+      /* @__PURE__ */ jsx(RemixServer, { context: remixContext, url: request.url, abortDelay: ABORT_DELAY }),
       {
         onShellReady() {
           shellRendered = !0;
           let body = new PassThrough(), stream = createReadableStreamFromReadable(body);
-          responseHeaders.set("Content-Type", "text/html"), resolve(
-            new Response(stream, {
-              headers: responseHeaders,
-              status: responseStatusCode
-            })
-          ), pipe(body);
+          responseHeaders.set("Content-Type", "text/html"), resolve(new Response(stream, {
+            headers: responseHeaders,
+            status: responseStatusCode
+          })), pipe(body);
         },
         onShellError(error) {
           reject(error);
@@ -103,6 +67,7 @@ function handleBrowserRequest(request, responseStatusCode, responseHeaders, remi
     setTimeout(abort, ABORT_DELAY);
   });
 }
+var handler = handleRequest;
 
 // app/root.tsx
 var root_exports = {};
